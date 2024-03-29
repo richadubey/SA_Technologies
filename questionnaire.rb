@@ -13,24 +13,27 @@ QUESTIONS = {
 
 def start_survey
   puts "Welcome to the coding skills survey!"
-  total_rating = 0
+  total_rating = 0.0
   total_surveys = 0
-  all_ratings = []
+
+  # Prompt user to start the survey
+  print "Do you want to start the survey? (Yes/No): "
+  response = gets.chomp.downcase
+  return unless response.start_with?('y')
 
   loop do
     total_surveys += 1
     puts "Starting Survey #{total_surveys}:"
     survey_rating = run_survey
-    all_ratings << survey_rating
     total_rating += survey_rating
 
-    average_rating = total_rating.to_f / total_surveys
+    average_rating = total_rating / total_surveys
     puts "Average rating for all surveys: #{average_rating.round(2)}%"
     
     break unless start_again?
   end
   
-  overall_average_rating = all_ratings.inject(0.0) { |sum, rating| sum + rating } / all_ratings.size
+  overall_average_rating = total_surveys == 0 ? 0 : total_rating / total_surveys
   puts "Overall average rating across all surveys: #{overall_average_rating.round(2)}%"
 end
 
@@ -66,9 +69,9 @@ def calculate_rating(answers)
 end
 
 def start_again?
-  puts "Do you want to start another survey? (Yes/No)"
+  print "Do you want to start another survey? (Yes/No): "
   response = gets.chomp.downcase
-  response == 'yes'
+  response.start_with?('y')
 end
 
 start_survey
