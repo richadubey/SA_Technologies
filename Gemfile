@@ -1,1 +1,2 @@
 gem 'pstore'
+gem 'rspec'
